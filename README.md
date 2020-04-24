@@ -1,6 +1,8 @@
 # Estudando Selenium Python
 Aprendendo a utilizar o selenium
 
+[Curso de Selenium com Python](https://dunossauro.github.io/curso-python-selenium/) de Eduardo Mendes
+
 ## Configuração do ambiente (Linux)
 
 ### Python
