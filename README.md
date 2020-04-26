@@ -26,12 +26,12 @@ Instalação para ubuntu
 
 1. Baixar e instalar o Atom
 2. Abrir Atom
-3. Ir nas preferencias e instalar '''platformio-ide-terminal (para abrir o terminal '''CTRL + i + ")'''
+3. Ir nas preferencias e instalar ```platformio-ide-terminal``` (para abrir o terminal ```CTRL + i + "```)
 
 ### Navegadores (Browsers)
 Instalar os Navegadores
 
-- [Firefox](https://www.mozilla.org/pt-BR/firefox/new/) '''sudo apt install firefox'''
+- [Firefox](https://www.mozilla.org/pt-BR/firefox/new/) ```sudo apt install firefox```
 - [Chrome](https://www.google.com/intl/pt-BR/chrome/)
 
 ### Webdrivers
@@ -51,18 +51,10 @@ Instalar os Navegadores
 Instalação do [Docker](https://docs.docker.com/engine/install/ubuntu/) no terminal
 
 1. ```sudo apt update```
-2. ```sudo apt install \
-    apt-transport-https \
-    ca-certificates \
-    curl \
-    gnupg-agent \
-    software-properties-common```
+2. ```sudo apt install apt-transport-https ca-certificates curl gnupg-agent software-properties-common```
 3. ```curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -```
 4. ```sudo apt-key fingerprint 0EBFCD88```
-5. ```sudo add-apt-repository \
-   "deb [arch=amd64] https://download.docker.com/linux/ubuntu \
-   $(lsb_release -cs) \
-   stable"```
+5. ```sudo add-apt-repository "deb [arch=amd64] https://download.docker.com/linux/ubuntu $(lsb_release-cs) stable"```
 6. ```sudo apt update```
 7. ```sudo apt-get install docker-ce docker-ce-cli containerd.io```
 8. ```sudo usermod -aG docker $USER``` opcional
