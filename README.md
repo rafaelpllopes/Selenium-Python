@@ -1,5 +1,5 @@
 # Estudando Selenium Python
-Aprendendo a utilizar o selenium
+Aprendendo a utilizar o [selenium](https://www.selenium.dev/projects/)
 
 [Curso de Selenium com Python](https://dunossauro.github.io/curso-python-selenium/) de Eduardo Mendes
 
