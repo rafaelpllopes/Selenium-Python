@@ -14,14 +14,20 @@ try:
     
     valor_atual_p = ''
     
-    while f'Você ganhou:{numero_esperado}' != valor_atual_p:
+    # while f'Você ganhou:{numero_esperado}' != valor_atual_p:
+    #     botao.click()
+    #     p = navegador.find_elements_by_tag_name('p')
+    #     valor_atual_p = p[-1].text
+
+    #     print(valor_atual_p)
+
+    while 'Você ganhou' not in valor_atual_p:
         botao.click()
         p = navegador.find_elements_by_tag_name('p')
         valor_atual_p = p[-1].text
-
         print(valor_atual_p)
-
-    sleep(10)
+        
+    sleep(3)
     navegador.quit()
 
 except Exception as error:
