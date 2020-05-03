@@ -9,7 +9,9 @@ try:
     navegador.get(url)
     sleep(0.5)
     h1 = navegador.find_element_by_tag_name('h1')
-    p = navegador.find_elements_by_tag_name('p')  
+    p = navegador.find_elements_by_tag_name('p')
+
+    # Primeira forma para formar o dicionario
 
     dict_atributos = {}
 
@@ -19,8 +21,13 @@ try:
         )
 
     dicionario = { h1.text : dict_atributos}
-    
     print(dicionario)
+
+    # Segunda forma de formar o dicionarios com Dictionary Comprehension
+
+    dict_comprehension = {h1.text : {item.get_attribute('atributo') : item.text for item in p}}
+    print(dict_comprehension)
+
     sleep(1)
     navegador.quit()
 except Exception as error:
