@@ -10,14 +10,15 @@ try:
     sleep(0.5)
     h1 = navegador.find_element_by_tag_name('h1')
     p = navegador.find_elements_by_tag_name('p')  
-    
-    dicionario = { h1.text : 
-        {
-            p[0].get_attribute('atributo') : p[0].text,
-            p[1].get_attribute('atributo') : p[1].text,
-            p[2].get_attribute('atributo'): p[2].text
-        }
-    }
+
+    dict_atributos = {}
+
+    for item in p:
+        dict_atributos.update(
+            {item.get_attribute('atributo') : item.text}
+        )
+
+    dicionario = { h1.text : dict_atributos}
     
     print(dicionario)
     sleep(1)
