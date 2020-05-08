@@ -16,7 +16,7 @@ browser = Firefox()
 url_padrao = 'http://selenium.dunossauro.live'
 
 browser.get(f'{url_padrao}/aula_04.html')
-sleep(3)
+sleep(10)
 
 def get_links(browser, elemento): # dicionario
     """
@@ -64,31 +64,38 @@ def navegar(browser, seletor, sequencia=0, url_anterior=None):
     """
     Clicar em um link de acordo com seletor
         - browser: instancia do navegador
-        - seletor html [main, aside, ...]
-    """    
-    sleep(3)
+        - seletor: html [main, aside, ...]
+        - sequencia: percorre o proximo item
+        - url_anterior: lembrar ultima url para retornar pagina
+    """
+    sleep(5)
 
     url = urlparse(browser.current_url)
 
-    if url.path == '/page_2.html':
-        sleep(60)
-
-    item = browser.find_element_by_tag_name(seletor)
-    ancora = item.find_elements_by_tag_name('a')
-    ancora[sequencia].click() 
-    
+    print(f'Escolhida a {sequencia+1}ª opção na url {url_padrao}{url.path}')
+              
     if url.path == '/diabao.html':
-        browser.get(f'{url_padrao}{url_anterior}')
-        sequencia += 1
-        if sequencia > 1:
-            sequencia = 0
-        navegar(browser, 'main', sequencia, url_anterior)
-        
-    if url.path != '/page_4.html':
-        navegar(browser, 'main', url_anterior=url.path)
-    
 
-    browser.refresh()    
+        if url.path == '/page_4.html':
+            browser.refresh()
+        else:
+            browser.get(f'{url_padrao}{url_anterior}')
+            sequencia += 1
+            if sequencia > 1:
+                sequencia = 0
+            navegar(browser, 'main', sequencia, url_anterior)
+    else:
+        if url.path == '/page_2.html':
+            sleep(30)
+            
+    if url.path != '/page_4.html':
+        item = browser.find_element_by_tag_name(seletor)
+        ancora = item.find_elements_by_tag_name('a')
+        ancora[sequencia].click()
+        navegar(browser, 'main', url_anterior=url.path)
+    else:
+        browser.refresh()
+    
     sleep(3)
     browser.quit()
            
