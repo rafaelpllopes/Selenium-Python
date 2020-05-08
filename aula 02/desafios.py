@@ -9,11 +9,14 @@ from selenium.webdriver import Firefox
 from time import sleep
 from pprint import pprint
 from urllib.parse import urlparse
+import asyncio
 
 browser = Firefox()
 
-browser.get('http://selenium.dunossauro.live/aula_04.html')
-sleep(10)
+url_padrao = 'http://selenium.dunossauro.live'
+
+browser.get(f'{url_padrao}/aula_04.html')
+sleep(3)
 
 def get_links(browser, elemento): # dicionario
     """
@@ -57,37 +60,36 @@ Parte 3
     - Exercicio 3
 """
 
-def navegar(browser, seletor, sequencia=0):
+def navegar(browser, seletor, sequencia=0, url_anterior=None):
     """
     Clicar em um link de acordo com seletor
         - browser: instancia do navegador
         - seletor html [main, aside, ...]
-    """
-    sleep(10)
+    """    
+    sleep(3)
+
+    url = urlparse(browser.current_url)
+
+    if url.path == '/page_2.html':
+        sleep(60)
+
     item = browser.find_element_by_tag_name(seletor)
     ancora = item.find_elements_by_tag_name('a')
-    ancora[sequencia].click()
-    sleep(10)
-    url = urlparse(browser.current_url)
-    
-    print(sequencia, url.path)
+    ancora[sequencia].click() 
     
     if url.path == '/diabao.html':
-        sleep(10)
-        item = browser.find_element_by_tag_name('main')
-        texto = item.find_element_by_tag_name('p').text
-        if 'refresh' in texto:
-            browser.refresh()
-            sleep(10)
+        browser.get(f'{url_padrao}{url_anterior}')
+        sequencia += 1
+        if sequencia > 1:
+            sequencia = 0
+        navegar(browser, 'main', sequencia, url_anterior)
         
-        if 'erro' in texto:
-            browser.back()
-            sequencia += 1
-            navegar(browser, 'main', sequencia)
-    
     if url.path != '/page_4.html':
-        navegar(browser, 'main')
+        navegar(browser, 'main', url_anterior=url.path)
+    
 
+    browser.refresh()    
+    sleep(3)
     browser.quit()
            
 
