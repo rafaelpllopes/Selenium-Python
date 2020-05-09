@@ -9,7 +9,6 @@ from selenium.webdriver import Firefox
 from time import sleep
 from pprint import pprint
 from urllib.parse import urlparse
-import asyncio
 
 browser = Firefox()
 
