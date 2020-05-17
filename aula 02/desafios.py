@@ -85,7 +85,7 @@ def navegar(browser, seletor, sequencia=0, url_anterior=None):
             navegar(browser, 'main', sequencia, url_anterior)
     else:
         if url.path == '/page_2.html':
-            sleep(30)
+            sleep(45)
             
     if url.path != '/page_4.html':
         item = browser.find_element_by_tag_name(seletor)
