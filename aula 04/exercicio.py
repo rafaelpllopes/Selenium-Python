@@ -61,7 +61,7 @@ def main():
     firefox = Firefox()
     firefox.implicitly_wait(30)
 
-    # exercicio_05(firefox, url_exercicio05)
+    exercicio_05(firefox, url_exercicio05)
     exercicio_06(firefox, url_exercicio06)
 
     try:
