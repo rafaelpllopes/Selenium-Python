@@ -4,6 +4,7 @@ from selenium.webdriver.support.events import (
     EventFiringWebDriver,
     AbstractEventListener
 )
+from urllib.parse import urlparse
 from time import sleep
 
 """
@@ -16,6 +17,9 @@ from time import sleep
               - Assistir a Live de Python #115 - Introdução aos padrões de projetos
               - Assistir a Live de Python #117 - Padrão template method
 """
+
+def page_1(driver):
+    pass
 
 def print_components(components):
     for component in components:
@@ -37,7 +41,14 @@ class Escuta(AbstractEventListener):
             print_components(components)
 
     def after_navigate_to(self, url, driver):
-        print(f'URL: {url}')      
+        print(url)
+
+    def before_click(self, element, driver):
+        print(f'Elemento selecionado {element.tag_name}')
+
+    def before_quit(self, driver):
+        sleep(3)
+
 
 browser = Firefox()
 browser.implicitly_wait(30)
@@ -47,6 +58,10 @@ url = {
        1: 'http://selenium.dunossauro.live/exercicio_07.html',
        2: 'http://selenium.dunossauro.live/exercicio_03.html'
 }
+
+"""
+    Exercicio 7: pegar as mudanças nas label atraves dos eventos
+"""
 
 wrapper_browser.get(f'{url[1]}')
 
@@ -59,5 +74,50 @@ nome.send_keys('teste')
 email.send_keys('teste@teste')
 senha.send_keys('senhaSenhaSENHA')
 btn.click()
+
+"""
+    Exercicio 03: Refazer o exercicio, utilizar Escuta para gerar as ações
+"""
+
+def navegar(browser, seletor, sequencia=0, url_anterior=None):
+    """
+    Clicar em um link de acordo com seletor
+        - browser: instancia do navegador
+        - seletor: html [main, aside, ...]
+        - sequencia: percorre o proximo item
+        - url_anterior: lembrar ultima url para retornar pagina
+    """
+
+    url_atual = urlparse(browser.current_url)
+
+    print(f'Escolhida a {sequencia+1}ª opção na url {url[2]}{url_atual.path}')
+              
+    if url_atual.path == '/diabao.html':
+
+        if url_atual.path == '/page_4.html':
+            browser.refresh()
+        else:
+            browser.get(f'{url[2]}{url_anterior}')
+            sequencia += 1
+            if sequencia > 1:
+                sequencia = 0
+            navegar(browser, 'main', sequencia, url_anterior)
+    else:
+        if url_atual.path == '/page_2.html':
+            sleep(45)
+            
+    if url_atual.path != '/page_4.html':
+        item = browser.find_element_by_tag_name(seletor)
+        ancora = item.find_elements_by_tag_name('a')
+        ancora[sequencia].click()
+        navegar(browser, 'main', url_anterior=url_atual.path)
+    else:
+        browser.refresh()
+
+wrapper_browser.get(url[2])     
+comecar = wrapper_browser.find_element_by_css_selector('main li a')
+comecar.click()
+
+navegar(wrapper_browser, 'main')
 
 wrapper_browser.quit()
