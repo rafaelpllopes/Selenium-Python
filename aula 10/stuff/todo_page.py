@@ -26,23 +26,68 @@
             - Botão cancelar
         
 """
+
 from abc import ABC
 from selenium.webdriver.common.by import By
 from selenium.common.exceptions import NoSuchElementException
+from biblioteca import Page, PageElement
 
-class PageElement(ABC):
-    def __init__(self, webdriver, url=''):
-        self.webdriver = webdriver
-        self.url = url
-    
-    def open(self):
-        self.webdriver.get(self.url)
+"""
+* Parte 2 *
+Problemas de OO
+    - Responsabilidade
+        -PageElement
+            - url
+            - webdriver
+            - find*
 
-    def find_element(self, locator):
-        return self.webdriver.find_element(*locator)
+Responsabilidades
 
-    def find_elements(self, locator):
-        return self.webdriver.find_elements(*locator)
+1. Selenium
+    - coisas de selenium
+2. Não temos uma página (PO)
+3. PageElement, é ser elemento
+
+Reflexão - Reflection
+    - Mudar o codigo em tempo de execução
+
+ - biblioteca (Implementação do POM)
+ - PageElements
+    - Concreto (Não é ABC)
+    - Abstrato (Interface) - ABC (Container)
+_ Pagina
+    - BasePage
+    - Pagina
+      
+"""
+
+# class SeleniumObject:
+#     def find_element(self, locator):
+#         return self.webdriver.find_element(*locator)
+
+#     def find_elements(self, locator):
+#         return self.webdriver.find_elements(*locator)
+
+# class Page(SeleniumObject, ABC):
+#      def __init__(self, webdriver, url=''):
+#         self.webdriver = webdriver
+#         self.url = url
+#         self._reflection()
+
+#      def open(self):
+#         self.webdriver.get(self.url)
+
+#      def _reflection(self):
+#         for atributo in dir(self):
+#             atributo_real = getattr(self, atributo)
+#             if isinstance(atributo_real, PageElement):
+#                 atributo_real.webdriver = self.webdriver
+
+# class PageElement(SeleniumObject, ABC):
+#     def __init__(self, webdriver=None):
+#         self.webdriver = webdriver
+
+# PageElements
 
 class Todo(PageElement):
     """
@@ -108,43 +153,70 @@ class Card:
     def __repr__(self):
         return f'Card(name="{self.name}", description="{self.description}")'
 
+# PageObject
+
+class BasePage(Page):
+    barra_de_navegação = None
+
+class PageTodo(Page):
+    a_fazer = AFazer()
+    fazendo = Fazendo()
+    pronto = Pronto()
+    todo = Todo()
+
+# Código
+
 def main():
     from selenium.webdriver import Firefox
-    from time import sleep
     webdriver = Firefox()
     url = 'https://selenium.dunossauro.live/todo_list.html'
 
-    todo_element = Todo(webdriver, url)
-    todo_element.open()
-    todo_element.create_todo(
-        name='teste1',
-        description='teste1'
+    page = PageTodo(webdriver, url)
+    page.open()
+    page.todo.create_todo(
+        'Fazer a aula',
+        'Selenium aula POM'
     )
 
-    todo_element.create_todo(
-        name='teste2',
-        description='teste2'
+    todo = Todo(webdriver)
+    todo.create_todo(
+        'criado pelo page element',
+        'Ihhaaa'
     )
 
-    a_fazer = AFazer(webdriver)
-    tasks = a_fazer.todos()
-    print(f'a fazer: {a_fazer.todos()}')
-    tasks[0].do()
+    print(page.a_fazer.todos())
 
-    fazendo = Fazendo(webdriver)
-    print(f'fazendo: {fazendo.todos()}')
-    tasks[0].do()
+    # todo_element = Todo(webdriver, url)
+    # todo_element.open()
+    # todo_element.create_todo(
+    #     name='teste1',
+    #     description='teste1'
+    # )
 
-    pronto = Pronto(webdriver)
-    print(f'pronto: {pronto.todos()}')
+    # todo_element.create_todo(
+    #     name='teste2',
+    #     description='teste2'
+    # )
 
-    tasks[1].do()
-    tasks[1].do()
+    # a_fazer = AFazer(webdriver)
+    # tasks = a_fazer.todos()
+    # print(f'a fazer: {a_fazer.todos()}')
+    # tasks[0].do()
+
+    # fazendo = Fazendo(webdriver)
+    # print(f'fazendo: {fazendo.todos()}')
+    # tasks[0].do()
+
+    # pronto = Pronto(webdriver)
+    # print(f'pronto: {pronto.todos()}')
+
+    # tasks[1].do()
+    # tasks[1].do()
     
-    print(f'a fazer: {a_fazer.todos()}')
+    # print(f'a fazer: {a_fazer.todos()}')
 
-    tasks[0].do()
-    print(f'a fazer: {a_fazer.todos()}')
+    # tasks[0].do()
+    # print(f'a fazer: {a_fazer.todos()}')
 
 if __name__ == '__main__':
     main()
