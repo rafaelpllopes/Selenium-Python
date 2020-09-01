@@ -1,0 +1,18 @@
+{
+    "capabilities": [
+        {
+            "browserName": "firefox",
+            "maxInstances": 5,
+            "seleniumProtocol": "WebDriver"
+        },
+        {
+            "browserName": "chrome",
+            "maxInstances": 5,
+            "platform": "LINUX",
+            "seleniumProtocol": "WebDriver"
+        }
+    ],
+    "port": 5555,
+    "hub": "http://172.17.0.1:4444",
+    "role": "node"
+}
