@@ -12,3 +12,5 @@ driver = Remote(desired_capabilities={
 })
 
 driver.get('https://google.com')
+driver.save_screenshot('google.png')
+driver.quit()
